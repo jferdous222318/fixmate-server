@@ -10,11 +10,11 @@ const app = express();
 
 const allowed = [env.clientUrl, "http://localhost:3000"];
 app.use(
-  cors({
-    origin: (origin, cb) =>
-      !origin || allowed.includes(origin) ? cb(null, true) : cb(new Error("CORS blocked")),
-    credentials: true,
-  })
+    cors({
+        origin: (origin, cb) =>
+            !origin || allowed.includes(origin) ? cb(null, true) : cb(new Error("CORS blocked")),
+        credentials: true,
+    })
 );
 
 app.use(express.json());

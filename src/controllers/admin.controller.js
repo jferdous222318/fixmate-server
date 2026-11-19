@@ -104,3 +104,14 @@ export const getAllBookings = async (req, res, next) => {
     next(err);
   }
 };
+// GET /api/admin/payments  (also returns total revenue)
+export const getAllPayments = async (req, res, next) => {
+  try {
+    const payments = await col("payments");
+    const items = await payments.find({}).sort({ paidAt: -1 }).toArray();
+    const totalRevenue = items.reduce((sum, p) => sum + p.amount, 0);
+    res.json({ payments: items, totalRevenue });
+  } catch (err) {
+    next(err);
+  }
+};

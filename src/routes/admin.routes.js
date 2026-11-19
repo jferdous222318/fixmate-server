@@ -4,6 +4,7 @@ import {
   updateUserRole,
   getAllServices,
   updateApproval,
+  getAllPayments,
 } from "../controllers/admin.controller.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
 import { verifyAdmin } from "../middlewares/verifyRole.js";
@@ -17,6 +18,7 @@ router.get("/users", getAllUsers);
 router.patch("/users/:id/role", updateUserRole);
 router.get("/services", getAllServices);
 router.patch("/services/:id/approval", updateApproval);
+router.get("/payments", getAllPayments);
 // /admin/bookings and /admin/payments are added in Parts 4 and 5
 
 export default router;
