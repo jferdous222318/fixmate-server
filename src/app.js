@@ -1,0 +1,27 @@
+import express from "express";
+import cors from "cors";
+import { env } from "./config/env.js";
+import { notFound, errorHandler } from "./middlewares/errorHandler.js";
+import serviceRoutes from "./routes/service.routes.js";
+
+const app = express();
+
+const allowed = [env.clientUrl, "http://localhost:3000"];
+app.use(
+    cors({
+        origin: (origin, cb) =>
+            !origin || allowed.includes(origin) ? cb(null, true) : cb(new Error("CORS blocked")),
+        credentials: true,
+    })
+);
+
+app.use(express.json());
+
+app.get("/", (req, res) => res.json({ app: "FixMate API", status: "ok" }));
+
+app.use("/api/services", serviceRoutes);
+
+app.use(notFound);
+app.use(errorHandler);
+
+export default app;
