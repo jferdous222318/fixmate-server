@@ -6,17 +6,18 @@ import serviceRoutes from "./routes/service.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import bookingRoutes from "./routes/booking.routes.js";
 import paymentRoutes from "./routes/payment.routes.js";
+import statsRoutes from "./routes/stats.routes.js";
 import { stripeWebhook } from "./controllers/webhook.controller.js";
 
 const app = express();
 
-const allowed = [env.clientUrl, "http://localhost:3000"];
+const allowed = [...(env.clientUrl || "").split(",").map((u) => u.trim()), "http://localhost:3000"];
 app.use(
-    cors({
-        origin: (origin, cb) =>
-            !origin || allowed.includes(origin) ? cb(null, true) : cb(new Error("CORS blocked")),
-        credentials: true,
-    })
+  cors({
+    origin: (origin, cb) =>
+      !origin || allowed.includes(origin) ? cb(null, true) : cb(new Error("CORS blocked")),
+    credentials: true,
+  })
 );
 
 // RAW body, must come BEFORE express.json()
@@ -29,6 +30,7 @@ app.get("/", (req, res) => res.json({ app: "FixMate API", status: "ok" }));
 app.use("/api/services", serviceRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/payments", paymentRoutes);
+app.use("/api/stats", statsRoutes);
 app.use("/api/admin", adminRoutes);
 
 app.use(notFound);
