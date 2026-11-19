@@ -90,3 +90,17 @@ export const updateApproval = async (req, res, next) => {
     next(err);
   }
 };
+
+// GET /api/admin/bookings?status=completed
+export const getAllBookings = async (req, res, next) => {
+  try {
+    const filter = {};
+    if (req.query.status) filter.status = req.query.status;
+
+    const bookings = await col("bookings");
+    const items = await bookings.find(filter).sort({ createdAt: -1 }).toArray();
+    res.json(items);
+  } catch (err) {
+    next(err);
+  }
+};
