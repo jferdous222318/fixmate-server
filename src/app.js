@@ -3,6 +3,7 @@ import cors from "cors";
 import { env } from "./config/env.js";
 import { notFound, errorHandler } from "./middlewares/errorHandler.js";
 import serviceRoutes from "./routes/service.routes.js";
+import adminRoutes from "./routes/admin.routes.js";
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.get("/", (req, res) => res.json({ app: "FixMate API", status: "ok" }));
 
 app.use("/api/services", serviceRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
